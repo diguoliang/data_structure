@@ -1,12 +1,14 @@
+#ifndef LIST_HPP
+#define LIST_HPP
+
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 using namespace std;
 
 template <class T>
 class List
 {
 public:
-    // 构造、析构、拷贝构造、拷贝赋值
     List() : _head(nullptr), _tail(nullptr){}
     ~List()
     {
@@ -30,12 +32,11 @@ public:
         return *this;
     }
 
-    //获取尾元素
     T& back()
     {
         if (empty())
         {
-            throw UnderFlow();
+            throw std::underflow_error("list underflow !");
         }
         return _tail->_data;
     }
@@ -45,7 +46,6 @@ public:
         return const_cast<List*>(this)->back();
     }
 
-    //在尾部压入和弹出元素
     void push_back(const T& data)
     {
         _tail = new Node(data, _tail);
@@ -63,7 +63,7 @@ public:
     {
         if (empty())
         {
-            return UnderFlow();
+            throw std::underflow_error("list underflow !");
         }
         Node* prev = _tail->_prev;
         delete _tail;
@@ -78,12 +78,11 @@ public:
         }
     }
 
-    //获取头元素
     T& front()
     {
         if (empty())
         {
-            return UnderFlow();
+            throw std::underflow_error("list underflow !");
         }
 
         return _head->_data;
@@ -94,7 +93,6 @@ public:
         return const_cast<List*>(this)->front();
     }
 
-    //在首部压入和弹出元素
     void push_front(const T& data)
     {
         _head = new Node(data, nullptr, _head);
@@ -112,7 +110,7 @@ public:
     {
         if (empty())
         {
-            return UnderFlow();
+            throw std::underflow_error("list underflow !");
         }
 
         Node* next = _head->_next;
@@ -129,7 +127,6 @@ public:
         }
     }
 
-    //移除所有匹配元素
     void remove(const T& data)
     {
         for (Node* node = _head, *next; node; node = next)
@@ -159,7 +156,6 @@ public:
         }
     }
 
-    //清空
     void clear()
     {
         for (Node* next; _head; _head = next)
@@ -170,13 +166,11 @@ public:
         _tail = nullptr;
     }
 
-    //判空
     bool empty()const
     {
         return _head == nullptr && _tail == nullptr;
     }
 
-    //获取元素个数
     size_t size()const
     {
         size_t counter = 0;
@@ -187,7 +181,6 @@ public:
         return counter;
     }
 
-    //输出
     friend ostream& operator<<(ostream& os, const List& list)
     {
         for (Node* node = list._head; node; node = node->_next)
@@ -214,22 +207,6 @@ private:
         Node* _next;
     };
 
-    class OverFlow : public exception
-    {
-        const char* what (void) const throw()
-        {
-            return "链表上溢";
-        }
-    };
-
-    class UnderFlow : public exception
-    {
-        const char* what (void) const throw()
-        {
-            return "链表下溢";
-        }
-    };
-
     bool equal(const T& a, const T& b)const
     {
         return a == b;
@@ -239,15 +216,6 @@ private:
     Node* _tail;
 };
 
-int main()
-{
-    List<int> l;
-    l.push_back(1);
-    l.push_back(2);
-    l.push_back(2);
-    l.push_front(3);
-    l.remove(2);
+#endif
 
-    cout << l << endl;
-    return 0;
-}
+
