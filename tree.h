@@ -22,7 +22,7 @@ public:
     bool   find(T data);
 
     void   travel() const;
-    size_t size()const { return _size; }
+    size_t size() const { return _size; }
     size_t height();
 
 private:
@@ -194,7 +194,7 @@ bool Tree<T>::find(T data)
 template <typename T>
 size_t Tree<T>::height()
 {
-    height(_root);
+    return height(_root);
 }
 
 template <typename T>
