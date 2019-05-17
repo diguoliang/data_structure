@@ -200,12 +200,14 @@ size_t Tree<T>::height()
 template <typename T>
 size_t Tree<T>::height(Node*& tree)
 {
-    if (tree)
+    if (!tree)
     {
-        size_t lh = height(tree->_left);
-        size_t rh = height(tree->_right);
-        return (lh > rh ? lh : rh) + 1;
+        return 0;
     }
+
+    size_t lh = height(tree->_left);
+    size_t rh = height(tree->_right);
+    return (lh > rh ? lh : rh) + 1;
 }
 
 #endif // TREE_H
